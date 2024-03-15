@@ -2,19 +2,20 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Socket.IO chat</title>
+    <title>multi-threaded socket.IO chat</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="flex flex-col h-screen">
     <ul
       id="messages"
-      class="flex-grow overflow-auto [&>*]:font-medium [&>*]:p-4 [&>*:nth-child(odd)]:bg-gray-100 [&>*:nth-child(even)]:bg-gray-200"
+      class="flex-grow overflow-auto [&>*]:font-medium [&>*]:p-4 [&>*:nth-child(odd)]:border-s-4 [&>*:nth-child(odd)]:border-indigo-500 [&>*:nth-child(odd)]:bg-gray-100 [&>*:nth-child(even)]:bg-gray-200"
     ></ul>
     <form
       id="form"
       class="fixed bottom-0 left-0 right-0 bg-black/20 backdrop-blur-lg p-2 flex items-center"
     >
       <input
+        required
         id="input"
         class="flex-grow rounded-full px-4 py-2 focus:outline-none"
         autocomplete="off"
@@ -36,6 +37,7 @@
       const form = document.getElementById("form");
       const input = document.getElementById("input");
       const messages = document.getElementById("messages");
+
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         if (input.value) {
@@ -44,6 +46,7 @@
           input.value = "";
         }
       });
+
       socket.on("chat message", (msg, serverOffset) => {
         const item = document.createElement("li");
         item.textContent = msg;
